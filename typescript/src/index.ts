@@ -25,7 +25,10 @@ ws.addEventListener('open', () => {
 ws.addEventListener('message', ({ data }) => {
   const [action, payload] = JSON.parse(data.toString()) as Message<'game-instance'>
 
-  if (action !== 'game-instance') return
+  if (action !== 'game-instance') {
+    console.log([action, payload])
+    return
+  }
 
   // New game tick arrived!
   const gameState = JSON.parse(payload['gameState']) as NoPlaneState
