@@ -39,7 +39,7 @@ export interface Messages {
   'sub-game': {
     id: string
   }
-  'game-state': {
+  'game-instance': {
     gameState: string
     status: string
     createdAt: Date

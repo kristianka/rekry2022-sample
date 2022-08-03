@@ -23,17 +23,17 @@ ws.addEventListener('open', () => {
 })
 
 ws.addEventListener('message', ({ data }) => {
-  const [action, payload] = JSON.parse(data.toString()) as Message<'game-state'>
+  const [action, payload] = JSON.parse(data.toString()) as Message<'game-instance'>
+
+  if (action !== 'game-instance') return
 
   // New game tick arrived!
-  if (action === 'game-state') {
-    const gameState = JSON.parse(payload['gameState']) as NoPlaneState
-    const commands = generateCommands(gameState)
+  const gameState = JSON.parse(payload['gameState']) as NoPlaneState
+  const commands = generateCommands(gameState)
 
-    setTimeout(() => {
-      ws.send(message('run-command', { gameId: game.entityId, payload: commands }))
-    }, 250) // Renders smoother if we wait a bit
-  }
+  setTimeout(() => {
+    ws.send(message('run-command', { gameId: game.entityId, payload: commands }))
+  }, 250) // Renders smoother if we wait a bit
 })
 
 // CLIENT LOGIC
