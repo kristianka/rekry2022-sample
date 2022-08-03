@@ -107,10 +107,16 @@ Lowest score wins.
 You send commands with the websocket to update the state.
 The message data is stringified JSON in the format:
 ```json
-["run-command", { gameId: "{game_id}", payload: [
-	"HEAD {aircraft_id} {direction}",
-	"HEAD {aircraft_id} {direction}"
-]}]
+[
+	"run-command", 
+	{ 
+		"gameId": "{game_id}", 
+		"payload": [
+			"HEAD {aircraft_id} {direction}",
+			"HEAD {aircraft_id} {direction}"
+		]
+	}
+]
 ```
 The direction must be a whole number in range [0, 359].
 
