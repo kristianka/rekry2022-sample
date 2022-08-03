@@ -72,8 +72,46 @@ type Messages = {
 
 ### Overview
 
-Tavoitteet, säännöt yms
+The goal of the game is to steer airplanes and land them into airports.
+In order to land an airplane to an airport:
+- Distance from airplane to airport needs to be `10` or less
+- Their directions must match exactly
+
+The airplanes have a limited turning radius. They change their direction by at most `20 degrees`.
+
+### Game state
+
+You receive the game state with websockets by subscribing to it.
+It contains all the necessary information to steer the planes.
+
+The websocket message payload has a `gameState` key, which contains the current state of the game as stringified JSON. It contains the bounding box of the playing area, a list of aircrafts, a list of airports, and your score.
+
+All positions are relative to the bounding box. All directions are based on the unit circle and in degrees, 0 being right and increasing counter clockwise. E.g. 0 is right, 90 is up, 180 is left, and 270 is down.
+
+
+### Score
+
+Your score increases by 1 when:
+- a new game tick is processed
+- a command is received
+
+Lowest score wins.
 
 ### Commands
+
+You send commands with the websocket to update the state.
+The message data is in format:
+```js
+["run-command", { gameId: "{game_id}", payload: [
+	"HEAD {aircraft_id} {direction}",
+	"HEAD {aircraft_id} {direction}"
+]}]
+```
+The direction must be a whole number in range [0, 259].
+
+One payload can contain multiple commands to control multiple aircrafts simultaneously. Each commands adds 1 to the score.
+
+
+
 
 
