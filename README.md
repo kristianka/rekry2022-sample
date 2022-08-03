@@ -1,2 +1,17 @@
-# rekry2022-sample
-Sample client for the Monad oy 2022 Rekry challenge
+# Instructions
+
+## Getting the token
+- Navigate to http://nonut
+- Enter any email and press `Get token`
+
+## Levels and Games
+
+## Game Mechanics
+
+### Overview
+
+Tavoitteet, säännöt yms
+
+### Commands
+
+
