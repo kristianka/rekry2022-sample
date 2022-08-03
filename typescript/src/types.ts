@@ -42,6 +42,7 @@ export interface Messages {
   'game-instance': {
     gameState: string
     status: string
+    reason: string
     createdAt: Date
     gameType: string
     entityId: string

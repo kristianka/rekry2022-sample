@@ -49,6 +49,7 @@ type Messages = {
   "game-instance": { // Updated game instance. Only sent from the server
     gameState: string
     status: string
+    reason: string
     createdAt: Date
     gameType: string
     entityId: string
