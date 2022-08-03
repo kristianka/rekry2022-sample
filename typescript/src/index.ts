@@ -9,14 +9,14 @@ import { message } from './utils/message'
 const token = process.env['TOKEN'] ?? ''
 const levelId = process.env['LEVEL_ID'] ?? ''
 
-const { data: game } = await axios.post<GameInstance>(`http://localhost:3001/api/levels/${levelId}`, null, {
+const { data: game } = await axios.post<GameInstance>(`http://nonut:3001/api/levels/${levelId}`, null, {
   headers: { Authorization: token },
 })
 
-console.log(`Game at http://localhost:3000/games/${game.entityId}`)
-await open(`http://localhost:3000/games/${game.entityId}`)
+console.log(`Game at http://nonut/games/${game.entityId}`)
+await open(`http://nonut/games/${game.entityId}`)
 
-const ws = new WebSocket(`ws://localhost:3001/${token}/`)
+const ws = new WebSocket(`ws://nonut:3001/${token}/`)
 
 ws.addEventListener('open', () => {
   ws.send(message('sub-game', { id: game.entityId }))
