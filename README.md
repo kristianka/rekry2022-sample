@@ -2,6 +2,9 @@
 
 You can find example implementations in different languages in language folders.
 
+**To access the site you have to be connected to the Tailscale VPN mesh of Monad oy**
+
+
 ## Getting the token
 - Navigate to http://nonut
 - Enter any email and press `Get token`
