@@ -1,5 +1,5 @@
 /**
- * Normalize any degree to 0-360
+ * Normalize any degree to 0-359
  * @param heading
  * @returns normalized heading
  */
