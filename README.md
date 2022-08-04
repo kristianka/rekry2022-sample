@@ -1,5 +1,7 @@
 # Instructions
 
+You can find example implementations in different languages in language folders.
+
 ## Getting the token
 - Navigate to http://nonut
 - Enter any email and press `Get token`
