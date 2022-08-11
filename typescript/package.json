@@ -9,7 +9,6 @@
     "dev:debug": "nodemon --inspect src/index.ts"
   },
   "dependencies": {
-    "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "node-fetch": "^3.2.10",
     "open": "^8.4.0",

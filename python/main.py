@@ -6,6 +6,9 @@ import json
 from lib.math import normalize_heading
 import time
 
+FRONTEND_BASE = "nonut"
+BACKEND_BASE = "nonut:3001"
+
 game_id = None
 
 
@@ -19,8 +22,8 @@ def on_message(ws: websocket.WebSocketApp, message):
      # New game tick arrived!
     game_state = json.loads(payload["gameState"])
     commands = generate_commands(game_state)
-    
-    time.sleep(0.25) # Renders smoother if we wait a bit
+
+    time.sleep(0.25)  # Renders smoother if we wait a bit
     ws.send(json.dumps(["run-command", {"gameId": game_id, "payload": commands}]))
 
 
@@ -50,21 +53,27 @@ def generate_commands(game_state):
 
 def main():
     config = dotenv_values()
-    game_instance = requests.post(
-        f"http://nonut:3001/api/levels/{config['LEVEL_ID']}",
+    res = requests.post(
+        f"http://{BACKEND_BASE}/api/levels/{config['LEVEL_ID']}",
         headers={
             "Authorization": config["TOKEN"]
-        }).json()
+        })
+
+    if res.status_code != 200:
+        print(f"Couldn't create game: {res.status_code} - {res.text}")
+        return
+
+    game_instance = res.json()
 
     global game_id
     game_id = game_instance["entityId"]
 
-    print(f"Game at http://nonut/games/{game_id}")
-    webbrowser.open(f"http://nonut/games/{game_id}", new=2)
+    print(f"Game at http://{FRONTEND_BASE}/games/{game_id}")
+    webbrowser.open(f"http://{FRONTEND_BASE}/games/{game_id}", new=2)
     time.sleep(2)
 
     ws = websocket.WebSocketApp(
-        f"ws://nonut:3001/{config['TOKEN']}/", on_message=on_message, on_open=on_open, on_close=on_close, on_error=on_error)
+        f"ws://{BACKEND_BASE}/{config['TOKEN']}/", on_message=on_message, on_open=on_open, on_close=on_close, on_error=on_error)
     ws.run_forever()
 
 
