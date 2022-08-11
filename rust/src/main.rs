@@ -19,7 +19,7 @@ fn normalize_heading(heading: i32) -> i32 {
 fn get_env_var(name: &str) -> String {
     env::vars()
         .find_map(|(k, v)| if k == name { Some(v) } else { None })
-        .unwrap()
+        .unwrap_or_else(|| panic!("Env var '{name}' doesn't exist"))
 }
 
 // Change this to your own implementation
@@ -85,7 +85,7 @@ fn create_game(level_id: &str, token: &str) -> GameInstance {
         .post(format!("http://{BACKEND_BASE}/api/levels/{level_id}"))
         .header(reqwest::header::AUTHORIZATION, token)
         .send()
-        .unwrap();
+        .expect("Failed to make post request to sever");
 
     if !res.status().is_success() {
         panic!(
@@ -99,7 +99,7 @@ fn create_game(level_id: &str, token: &str) -> GameInstance {
 }
 
 fn main() {
-    dotenv().unwrap();
+    dotenv().expect("A valid .env file doesn't exist");
 
     let token = get_env_var("TOKEN");
     let level_id = get_env_var("LEVEL_ID");
@@ -113,7 +113,7 @@ fn main() {
     thread::sleep(Duration::from_secs(2));
 
     let ws_url = format!("ws://{BACKEND_BASE}/{token}/");
-    let (mut socket, _) = connect(ws_url).unwrap();
+    let (mut socket, _) = connect(ws_url).expect("Failed to connect to websocket");
     let sub_message = serde_json::to_string(&("sub-game", SubGameData { id: game_id })).unwrap();
     socket.write_message(Message::text(sub_message)).unwrap();
 
