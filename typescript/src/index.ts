@@ -15,6 +15,7 @@ const { data: game } = await axios.post<GameInstance>(`http://nonut:3001/api/lev
 
 console.log(`Game at http://nonut/games/${game.entityId}`)
 await open(`http://nonut/games/${game.entityId}`)
+await new Promise((f) => setTimeout(f, 2000))
 
 const ws = new WebSocket(`ws://nonut:3001/${token}/`)
 

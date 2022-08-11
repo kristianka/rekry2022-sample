@@ -37,6 +37,7 @@ def on_close(ws, close_status_code, close_msg):
     print("CLOSED")
 
 
+# Change this to your own implementation
 def generate_commands(game_state):
     commands = []
     for aircraft in game_state["aircrafts"]:
@@ -60,6 +61,7 @@ def main():
 
     print(f"Game at http://nonut/games/{game_id}")
     webbrowser.open(f"http://nonut/games/{game_id}", new=2)
+    time.sleep(2)
 
     ws = websocket.WebSocketApp(
         f"ws://nonut:3001/{config['TOKEN']}/", on_message=on_message, on_open=on_open, on_close=on_close, on_error=on_error)
