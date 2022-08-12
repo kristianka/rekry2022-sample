@@ -72,9 +72,7 @@ fn handle_socket(mut socket: WebSocket<MaybeTlsStream<TcpStream>>) {
                 break;
             }
             Message::Ping(data) => socket.write_message(Message::Pong(data)).unwrap(),
-            msg => {
-                println!("Unhandled message type: {:?}", msg)
-            }
+            msg => println!("Unhandled message type: {:?}", msg),
         }
     }
 }

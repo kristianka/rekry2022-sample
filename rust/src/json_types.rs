@@ -5,12 +5,14 @@ use serde::{Deserialize, Serialize};
 pub struct SubGameData {
     pub id: String,
 }
+
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Point {
     pub x: f64,
     pub y: f64,
 }
+
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Airport {
@@ -19,6 +21,7 @@ pub struct Airport {
     pub direction: i32,
     pub landing_radius: f64,
 }
+
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Aircraft {
