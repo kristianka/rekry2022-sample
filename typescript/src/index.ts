@@ -29,7 +29,7 @@ const createGame = async (levelId: string, token: string) => {
     },
   })
 
-  if (res.status !== 200 && res.status !== 201) {
+  if (!res.ok) {
     console.error(`Couldn't create game: ${res.statusText} - ${await res.text()}`)
     return null
   }
@@ -44,8 +44,9 @@ const main = async () => {
   const game = await createGame(levelId, token)
   if (!game) return
 
-  console.log(`Game at http://${frontend_base}/?id=${game.entityId}`)
-  await open(`http://${frontend_base}/?id=${game.entityId}`)
+  const url = `http://${frontend_base}/?id=${game.entityId}`
+  console.log(`Game at ${url}`)
+  await open(url)
   await new Promise((f) => setTimeout(f, 2000))
 
   const ws = new WebSocket(`ws://${backend_base}/${token}/`)
