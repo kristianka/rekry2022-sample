@@ -26,7 +26,7 @@ fn get_env_var(name: &str) -> String {
 fn generate_commands(game_state: GameState) -> Vec<String> {
     let mut commands: Vec<String> = Vec::new();
 
-    for aircraft in game_state.aircrafts.iter() {
+    for aircraft in &game_state.aircrafts {
         // Go loopy loop
         let new_dir = normalize_heading(aircraft.direction + 20);
         commands.push(format!("HEAD {} {}", aircraft.id, new_dir));
@@ -85,13 +85,12 @@ fn create_game(level_id: &str, token: &str) -> GameInstance {
         .send()
         .expect("Failed to make post request to sever");
 
-    if !res.status().is_success() {
-        panic!(
-            "Couldn't create game: {} - {}",
-            res.status().canonical_reason().unwrap(),
-            res.text().unwrap()
-        );
-    }
+    assert!(
+        res.status().is_success(),
+        "Couldn't create game: {} - {}",
+        res.status().canonical_reason().unwrap(),
+        res.text().unwrap()
+    );
 
     serde_json::from_str(&res.text().unwrap()).unwrap()
 }
@@ -105,7 +104,7 @@ fn main() {
     let game_instance = create_game(&level_id, &token);
     let game_id = game_instance.entity_id;
 
-    let game_url = format!("http://{FRONTEND_BASE}/games/{game_id}");
+    let game_url = format!("http://{FRONTEND_BASE}/?id={game_id}");
     println!("Game at {game_url}");
     open::that(game_url).unwrap();
     thread::sleep(Duration::from_secs(2));
