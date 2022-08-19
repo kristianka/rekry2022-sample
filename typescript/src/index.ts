@@ -1,5 +1,5 @@
-import fetch from 'node-fetch'
 import 'dotenv/config'
+import fetch from 'node-fetch'
 import open from 'open'
 import WebSocket from 'ws'
 import { GameInstance, Message, NoPlaneState } from './types'
@@ -29,7 +29,7 @@ const createGame = async (levelId: string, token: string) => {
     },
   })
 
-  if (res.status !== 200) {
+  if (res.status !== 200 && res.status !== 201) {
     console.error(`Couldn't create game: ${res.statusText} - ${await res.text()}`)
     return null
   }
@@ -44,8 +44,8 @@ const main = async () => {
   const game = await createGame(levelId, token)
   if (!game) return
 
-  console.log(`Game at http://${frontend_base}/games/${game.entityId}`)
-  await open(`http://${frontend_base}/games/${game.entityId}`)
+  console.log(`Game at http://${frontend_base}/?id=${game.entityId}`)
+  await open(`http://${frontend_base}/?id=${game.entityId}`)
   await new Promise((f) => setTimeout(f, 2000))
 
   const ws = new WebSocket(`ws://${backend_base}/${token}/`)
