@@ -59,7 +59,7 @@ def main():
             "Authorization": config["TOKEN"]
         })
 
-    if res.status_code != 200:
+    if not res.ok:
         print(f"Couldn't create game: {res.status_code} - {res.text}")
         return
 
@@ -68,8 +68,9 @@ def main():
     global game_id
     game_id = game_instance["entityId"]
 
-    print(f"Game at http://{FRONTEND_BASE}/games/{game_id}")
-    webbrowser.open(f"http://{FRONTEND_BASE}/games/{game_id}", new=2)
+    url = f"http://{FRONTEND_BASE}/?id={game_id}"
+    print(f"Game at {url}")
+    webbrowser.open(url, new=2)
     time.sleep(2)
 
     ws = websocket.WebSocketApp(
