@@ -23,7 +23,7 @@ def on_message(ws: websocket.WebSocketApp, message):
     game_state = json.loads(payload["gameState"])
     commands = generate_commands(game_state)
 
-    time.sleep(0.25)  # Renders smoother if we wait a bit
+    time.sleep(0.1)
     ws.send(json.dumps(["run-command", {"gameId": game_id, "payload": commands}]))
 
 
@@ -46,6 +46,7 @@ def generate_commands(game_state):
     for aircraft in game_state["aircrafts"]:
         # Go loopy loop
         new_dir = normalize_heading(aircraft['direction'] + 20)
+        commands.append(f"HEAD {aircraft['id']} {new_dir}")
         commands.append(f"HEAD {aircraft['id']} {new_dir}")
 
     return commands

@@ -43,7 +43,7 @@ fn handle_game_instance(socket: &mut WebSocket<MaybeTlsStream<TcpStream>>, data:
     // and send back our commands based on game state
     let commands = generate_commands(game_state);
 
-    thread::sleep(Duration::from_millis(250)); // Renders smoother if we wait a bit
+    thread::sleep(Duration::from_millis(100));
     let response = serde_json::to_string(&(
         "run-command",
         RunCommandData {

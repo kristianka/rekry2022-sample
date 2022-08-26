@@ -69,7 +69,7 @@ const main = async () => {
 
     setTimeout(() => {
       ws.send(message('run-command', { gameId: game.entityId, payload: commands }))
-    }, 250) // Renders smoother if we wait a bit
+    }, 100)
   })
 }
 
