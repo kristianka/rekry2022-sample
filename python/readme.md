@@ -6,7 +6,7 @@ Copy the `.env.sample` to `.env` and fill it with the correct information.
 
 ```sh
 # Install dependencies
-pip install python-dotenv requests webbrowser websocket-client
+pip install python-dotenv requests websocket-client
 
 # Run the program
 python main.py

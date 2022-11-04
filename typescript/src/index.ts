@@ -6,8 +6,8 @@ import { GameInstance, Message, NoPlaneState } from './types'
 import { normalizeHeading } from './utils/math'
 import { message } from './utils/message'
 
-const frontend_base = 'nonut'
-const backend_base = 'nonut:3001'
+const frontend_base = 'noflight.monad.fi'
+const backend_base = 'noflight.monad.fi/backend'
 
 // Change this to your own implementation
 const generateCommands = (gameState: NoPlaneState) => {
@@ -22,7 +22,7 @@ const generateCommands = (gameState: NoPlaneState) => {
 }
 
 const createGame = async (levelId: string, token: string) => {
-  const res = await fetch(`http://${backend_base}/api/levels/${levelId}`, {
+  const res = await fetch(`https://${backend_base}/api/levels/${levelId}`, {
     method: 'POST',
     headers: {
       Authorization: token,
@@ -44,12 +44,12 @@ const main = async () => {
   const game = await createGame(levelId, token)
   if (!game) return
 
-  const url = `http://${frontend_base}/?id=${game.entityId}`
+  const url = `https://${frontend_base}/?id=${game.entityId}`
   console.log(`Game at ${url}`)
   await open(url)
   await new Promise((f) => setTimeout(f, 2000))
 
-  const ws = new WebSocket(`ws://${backend_base}/${token}/`)
+  const ws = new WebSocket(`wss://${backend_base}/${token}/`)
 
   ws.addEventListener('open', () => {
     ws.send(message('sub-game', { id: game.entityId }))

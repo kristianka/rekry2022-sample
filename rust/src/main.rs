@@ -8,8 +8,8 @@ use tungstenite::{connect, stream::MaybeTlsStream, Message, WebSocket};
 
 mod json_types;
 
-const FRONTEND_BASE: &str = "nonut";
-const BACKEND_BASE: &str = "nonut:3001";
+const FRONTEND_BASE: &str = "noflight.monad.fi";
+const BACKEND_BASE: &str = "noflight.monad.fi/backend";
 
 // Normalize any angle to 0-359
 fn normalize_heading(heading: i32) -> i32 {
@@ -80,7 +80,7 @@ fn handle_socket(mut socket: WebSocket<MaybeTlsStream<TcpStream>>) {
 fn create_game(level_id: &str, token: &str) -> GameInstance {
     let client = reqwest::blocking::Client::new();
     let res = client
-        .post(format!("http://{BACKEND_BASE}/api/levels/{level_id}"))
+        .post(format!("https://{BACKEND_BASE}/api/levels/{level_id}"))
         .header(reqwest::header::AUTHORIZATION, token)
         .send()
         .expect("Failed to make post request to sever");
@@ -104,12 +104,12 @@ fn main() {
     let game_instance = create_game(&level_id, &token);
     let game_id = game_instance.entity_id;
 
-    let game_url = format!("http://{FRONTEND_BASE}/?id={game_id}");
+    let game_url = format!("https://{FRONTEND_BASE}/?id={game_id}");
     println!("Game at {game_url}");
     open::that(game_url).unwrap();
     thread::sleep(Duration::from_secs(2));
 
-    let ws_url = format!("ws://{BACKEND_BASE}/{token}/");
+    let ws_url = format!("wss://{BACKEND_BASE}/{token}/");
     let (mut socket, _) = connect(ws_url).expect("Failed to connect to websocket");
     let sub_message = serde_json::to_string(&("sub-game", SubGameData { id: game_id })).unwrap();
     socket.write_message(Message::text(sub_message)).unwrap();
