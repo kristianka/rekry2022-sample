@@ -1,6 +1,8 @@
 # Instructions
 
-You can find example implementations in different languages in this repository.
+You can find example implementations in different languages in this repository. 
+
+They are only examples, you can also do your own solution from the ground up!
 
 ## Overview
 
