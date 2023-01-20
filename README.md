@@ -4,6 +4,8 @@ You can find example implementations in different languages in this repository.
 
 They are only examples, you can also do your own solution from the ground up!
 
+**NOTE: The scoreboard ranks your code only based on score, but you should still follow software development best practices (e.g. keeping secrets secure, DRY, no unnecessary globals, separation of concerns)**
+
 ## Overview
 
 ![example game](planes.gif)
